@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="pt_BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Excluindo Pessoa</title>
+</head>
+<body>
+<p1>Excluir Pessoa</p1>
+
+<form action="{{ url_for('excluir_pessoa') }}" method = POST>
+    <p>Voce realmente deseja excluir <b>{{ pessoa.nome }}</b>>?</p>
+    <button type="submit">Confirma</button>
+
+</form>
+<p><a href="/listar">Voltar</a></p>
+</body>
+</html>

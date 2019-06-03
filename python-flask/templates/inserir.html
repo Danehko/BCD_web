@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pt_BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastrando Pessoas</title>
+</head>
+<body>
+<h1>Cadastrando Pessoas</h1>
+{#<form method="post" action="inserir.html"></form>#}
+<form method="POST" action="{{ url_for('cadastrar_pessoas')}}">
+    <label>Nome:</label>
+    <input type="text" name="nome" placeholder="Entre com o nome" required>
+    <BR>
+    <button type="submit">Cadastrar</button>
+</form>
+
+
+</body>
+</html>
