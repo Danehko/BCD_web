@@ -4,7 +4,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import sessionmaker
 
-
 app = Flask(__name__)
 app.secret_key = 'String aleatoria'
 
@@ -15,9 +14,6 @@ Base.prepare(engine, reflect =True)
 
 Pessoa = Base.classes.Pessoa
 Telefones = Base.classes.Telefones
-
-
-
 
 @app.route('/')
 def inicial():
@@ -70,6 +66,51 @@ def excluir_pessoa():
 
         return render_template('excluir.html', pessoa=linha)
     else:
+        idPessoa = request.form['id']
+        linha = sessionSQL.query(Pessoa).filter(Pessoa.idPessoa == idPessoa).first()
+
+        linha.telefones_collection[:] = []
+
+        sessionSQL.delete(linha)
+
+        sessionSQL.commit()
+        sessionSQL.close()
+
+        return redirect(url_for('listar_pessoas'))
+
+@app.route('/editar', methods=['POST', 'GET'])
+def editar_pessoa():
+    sessionSQL = Session()
+
+    if request.method == 'GET':
+        idPessoa = str(request.args.get('id'))
+
+        linha = sessionSQL.query(Pessoa).filter(Pessoa.idPessoa == idPessoa).first()
+
+        if linha is None:
+            return redirect(url_for('listar_pessoas'))
+
+        return render_template('editar.html', pessoa=linha)
+    else:
+        idPessoa = request.form['id']
+
+        linha = sessionSQL.query(Pessoa).filter(Pessoa.idPessoa == idPessoa).first()
+
+        nome = request.form['nome']
+        linha.nome = nome
+        for campo in request.form.items():
+            if 'tele-' in campo[0]:
+                idTelefone = int(campo[0].split('-')[1])
+
+                for telefone in linha.telefones_collection:
+
+                    if telefone.idTelefone == idTelefone:
+                        telefone.numero = campo[1]
+
+
+        sessionSQL.commit()
+        sessionSQL.close
+
         return redirect(url_for('listar_pessoas'))
 
 if __name__ == '__main__':

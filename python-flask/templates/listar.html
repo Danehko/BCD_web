@@ -17,13 +17,11 @@
     </thead>
     <tbody>
     {% for linha in lista %}
-
         <tr>
-            <td>{{ linha.idPessoa }}</td>
+            <td><p><a href="/editar?id={{ linha.idPessoa }}">{{ linha.idPessoa }}</a></p></td>
             <td>{{ linha.nome }}</td>
             <td><a href="/excluir?id={{ linha.idPessoa }}"> excluir </a></td>
         </tr>
-
     {% endfor %}
     </tbody>
 </table>
